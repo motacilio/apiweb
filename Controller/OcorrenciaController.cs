@@ -26,12 +26,17 @@ namespace apiweb.Controller
         }
 
 
-        [HttpPost]
-        public IActionResult AdicionarOcorrencia([FromBody] CriarOcorrenciaDTO ocorrencia)
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> AdicionarOcorrencia([FromRoute] int id, [FromBody] CriarOcorrenciaDTO ocorrencia)
         {
-            var novaOcorrencia = ocorrencia.ToOcorrenciaEntity();
-            _ocorrenciaRepository.AdicionarOcorrencia(novaOcorrencia);
+            if(!await _usuarioRepository.UsuarioExiste(id))
+            {
+                return BadRequest("Usuario não existe");
+            }
             
+            await _ocorrenciaRepository.CriarOcorrencia(ocorrencia.ToOcorrenciaEntity(id));
+
             return Ok();
         }
 
@@ -53,8 +58,7 @@ namespace apiweb.Controller
             {
                 return NotFound();
             }
-            var retornoOcorrencia = ocorrencia.ToOcorrenciaDTO();
-            return Ok(retornoOcorrencia);
+            return Ok(ocorrencia.ToOcorrenciaDTO());
         }
 
     }

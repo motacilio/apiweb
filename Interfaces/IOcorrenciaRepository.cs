@@ -9,9 +9,9 @@ namespace apiweb.Interfaces
 {
     public interface IOcorrenciaRepository
     {
-        Task<List<OcorrenciaEntity>> RetornarOcorrencias();
-        Task<OcorrenciaEntity> RetornarOcorrenciaPorId(int id);
-        Task AdicionarOcorrencia(OcorrenciaEntity ocorrencia);
+        Task<List<OcorrenciaEntity>?> RetornarOcorrencias();
+        Task<OcorrenciaEntity?> RetornarOcorrenciaPorId(int id);
+        Task CriarOcorrencia(OcorrenciaEntity ocorrencia);
 
     }
 }

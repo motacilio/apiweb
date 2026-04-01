@@ -18,12 +18,12 @@ namespace apiweb.Repositories
             _context = context;
         }
 
-        public async Task AdicionarOcorrencia(OcorrenciaEntity ocorrencia)
+        public async Task CriarOcorrencia(OcorrenciaEntity ocorrencia)
         {
             await _context.Ocorrencias.AddAsync(ocorrencia);
+
             await _context.SaveChangesAsync();
         }
-
         public async Task<OcorrenciaEntity> RetornarOcorrenciaPorId(int id)
         {
             var ocorrencia = await _context.Ocorrencias.FindAsync(id);

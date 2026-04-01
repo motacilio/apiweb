@@ -9,7 +9,5 @@ namespace apiweb.Dto
     {
         public string titulo {get;set;} = string.Empty;
         public string detalhes {get;set;} = string.Empty;
-        public int usuarioId {get;set;}
-
     }
 }

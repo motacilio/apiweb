@@ -22,12 +22,12 @@ namespace apiweb.Repositories
         }
         public async Task<List<UsuarioEntity>> ListarUsuariosAsync()
         {
-            var usuarios = await _context.Usuarios.ToListAsync();
+            var usuarios = await _context.Usuarios.Include(c => c.ocorrencias).ToListAsync();
             return usuarios;
         }
         public async Task<UsuarioEntity?> AcharUsuarioPorIdAsync(int id)
         {
-            var usuario = await _context.Usuarios.FindAsync(id);
+            var usuario = await _context.Usuarios.Include(c => c.ocorrencias).FirstOrDefaultAsync(u => u.id == id);
             return usuario;
         }
 
@@ -59,7 +59,10 @@ namespace apiweb.Repositories
             await _context.SaveChangesAsync();
             return usuarioExistente;
         }
-        
-       
+
+        public async Task<bool> UsuarioExiste(int id)
+        {
+           return await _context.Usuarios.AnyAsync(u => u.id == id);      
+        }
     }
 }

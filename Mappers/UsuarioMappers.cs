@@ -13,8 +13,10 @@ namespace apiweb.Mappers
         public static UsuarioDTO ToUsuarioDTO(this UsuarioEntity usuario)
         {
             return new UsuarioDTO{
+                id = usuario.id,
                 nome = usuario.nome,
-                idade = usuario.idade
+                idade = usuario.idade,
+                ocorrencias = usuario.ocorrencias.Select(c => c.ToOcorrenciaDTO()).ToList()
             };
         }
 

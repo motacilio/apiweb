@@ -10,14 +10,13 @@ namespace apiweb.Mappers
     public static class OcorrenciaMapper
     {
         
-        public static OcorrenciaEntity ToOcorrenciaEntity(this CriarOcorrenciaDTO ocorrenciaDTO)
+        public static OcorrenciaEntity ToOcorrenciaEntity(this CriarOcorrenciaDTO ocorrenciaDTO, int id)
         {
             return new OcorrenciaEntity
             {
                 titulo = ocorrenciaDTO.titulo,
                 detalhes = ocorrenciaDTO.detalhes,
-                usuarioId = ocorrenciaDTO.usuarioId,
-                dataOcorrencia = DateTime.Now
+                usuarioId =id
             };
         }
 
@@ -25,6 +24,7 @@ namespace apiweb.Mappers
         {
             return new OcorrenciaDTO
             {
+                id = ocorrenciaEntity.id,
                 titulo = ocorrenciaEntity.titulo,
                 detalhes = ocorrenciaEntity.detalhes,
                 usuarioId = ocorrenciaEntity.usuarioId
