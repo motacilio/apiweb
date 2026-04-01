@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using apiweb.Entity;
-using Humanizer;
 using Microsoft.EntityFrameworkCore;
 
 namespace apiweb.Data
@@ -12,5 +7,6 @@ namespace apiweb.Data
     {
         public UsuarioContext (DbContextOptions<UsuarioContext> options) : base(options){}
         public DbSet<UsuarioEntity> Usuarios {get;set;}
+        public DbSet<OcorrenciaEntity> Ocorrencias {get;set;}
     }
 }

@@ -1,9 +1,7 @@
-using System.Configuration;
 using apiweb.Data;
-using apiweb.Model;
-using Microsoft.CodeAnalysis.Options;
+using apiweb.Interfaces;
+using apiweb.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 var connection = builder.Configuration["ConexaoSqlite:SqliteConnectionString"];
@@ -16,6 +14,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<UsuarioContext>(options => options.UseSqlite(connection));
 builder.Services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddTransient<IOcorrenciaRepository, OcorrenciaRepository>();
 
 var app = builder.Build();
 

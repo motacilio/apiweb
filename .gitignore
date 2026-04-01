@@ -23,7 +23,6 @@ coverage/
 .idea/
 
 # Local databases
-*.db
 *.sqlite
 *.sqlite3
 

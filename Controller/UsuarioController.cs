@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using apiweb.Dto;
-using apiweb.Entity;
+using apiweb.Interfaces;
 using apiweb.Mappers;
-using apiweb.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace apiweb.Controller
 {
@@ -15,47 +9,42 @@ namespace apiweb.Controller
     [Route("api/v1/usuario")]
     public class UsuarioController : ControllerBase
     {
-        
         public readonly IUsuarioRepository _usuarioRepository;
-
         public UsuarioController(IUsuarioRepository usuarioRepository)
         {
             _usuarioRepository = usuarioRepository ?? throw new ArgumentNullException();    
         }
 
         [HttpPost]
-        public IActionResult Add(CriarUsuarioDTO createUsuario)
+        public IActionResult Add(CriarUsuarioDTO usuarioCriado)
         {
-            var novoUsuario = createUsuario.ToUsuarioEntity();
-           _usuarioRepository.AdicionarUsuario(novoUsuario);
+            var novoUsuario = usuarioCriado.ToUsuarioEntity();
+           _usuarioRepository.AdicionarUsuarioAsync(novoUsuario);
             return Ok();
-           //return CreatedAtAction(nameof(GetUsuarioById), novoUsuario.id);
         }
 
         [HttpGet]
-        public IActionResult GetUsuarios()
+        public async Task<IActionResult> GetUsuarios()
         {
-            var usuarios = _usuarioRepository.ListarUsuarios()
-            .Select(s => s.ToUsuarioDTO());
-            return Ok(usuarios);
+            var usuarios = await _usuarioRepository.ListarUsuariosAsync();
+            var usuariosDTO = usuarios.Select(s => s.ToUsuarioDTO());
+            return Ok(usuariosDTO);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUsuarioById([FromRoute] int id)
+        public async Task<IActionResult> GetUsuarioById([FromRoute] int id)
         {
-            var usuario = _usuarioRepository.AcharUsuarioPorId(id).ToUsuarioDTO();
-
+            var usuario = (await _usuarioRepository.AcharUsuarioPorIdAsync(id)).ToUsuarioDTO();
             if(usuario == null){
                 return NotFound();
             }
-
             return Ok(usuario);
         }
 
         [HttpPut("{id}")]
-        public IActionResult AtualizarUsuario([FromRoute] int id, [FromBody] UsuarioDTO usuarioAtualizado)
+        public async Task<IActionResult> AtualizarUsuario([FromRoute] int id, [FromBody] UsuarioDTO usuarioAtualizado)
         {
-           var usuario = _usuarioRepository.AtualizarUsuario(id, usuarioAtualizado).ToUsuarioDTO();
+           var usuario = (await _usuarioRepository.AtualizarUsuarioAsync(id, usuarioAtualizado)).ToUsuarioDTO();
 
            if(usuario == null)
             {
@@ -66,9 +55,9 @@ namespace apiweb.Controller
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletarUsuario([FromRoute] int id)
+        public async Task<IActionResult> DeletarUsuario([FromRoute] int id)
         {
-            var usuarioDeletado = _usuarioRepository.DeletarUsuario(id).ToUsuarioDTO();
+            var usuarioDeletado =  (await _usuarioRepository.DeletarUsuarioAsync(id)).ToUsuarioDTO();
             if(usuarioDeletado == null)
             {
                 return NotFound();
