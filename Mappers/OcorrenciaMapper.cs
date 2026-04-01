@@ -10,13 +10,22 @@ namespace apiweb.Mappers
     public static class OcorrenciaMapper
     {
         
-        public static OcorrenciaEntity ToOcorrenciaEntity(this CriarOcorrenciaDTO ocorrenciaDTO, int id)
+        public static OcorrenciaEntity CriarOcorrenciaToOcorrenciaEntity(this CriarOcorrenciaDTO ocorrenciaDTO, int id)
         {
             return new OcorrenciaEntity
             {
                 titulo = ocorrenciaDTO.titulo,
                 detalhes = ocorrenciaDTO.detalhes,
-                usuarioId =id
+                usuarioId = id
+            };
+        }
+
+        public static OcorrenciaEntity AtualizarOcorrenciaToOcorrenciaEntity(this AtualizarOcorrenciaDTO ocorrencia)
+        {
+            return new OcorrenciaEntity
+            {
+              titulo = ocorrencia.titulo,
+              detalhes = ocorrencia.detalhes  
             };
         }
 

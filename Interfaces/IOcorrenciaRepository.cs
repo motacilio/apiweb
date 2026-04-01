@@ -12,6 +12,8 @@ namespace apiweb.Interfaces
         Task<List<OcorrenciaEntity>?> RetornarOcorrencias();
         Task<OcorrenciaEntity?> RetornarOcorrenciaPorId(int id);
         Task CriarOcorrencia(OcorrenciaEntity ocorrencia);
+        Task<OcorrenciaEntity?> AtualizarOcorrencia(int id, OcorrenciaEntity ocorrencia);
 
+        Task<OcorrenciaEntity?> DeletarOcorrencia(int id);
     }
 }

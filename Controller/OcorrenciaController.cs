@@ -26,7 +26,6 @@ namespace apiweb.Controller
         }
 
 
-
         [HttpPost("{id}")]
         public async Task<IActionResult> AdicionarOcorrencia([FromRoute] int id, [FromBody] CriarOcorrenciaDTO ocorrencia)
         {
@@ -35,7 +34,7 @@ namespace apiweb.Controller
                 return BadRequest("Usuario não existe");
             }
             
-            await _ocorrenciaRepository.CriarOcorrencia(ocorrencia.ToOcorrenciaEntity(id));
+            await _ocorrenciaRepository.CriarOcorrencia(ocorrencia.CriarOcorrenciaToOcorrenciaEntity(id));
 
             return Ok();
         }
@@ -59,6 +58,32 @@ namespace apiweb.Controller
                 return NotFound();
             }
             return Ok(ocorrencia.ToOcorrenciaDTO());
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> AtualizarOcorrencia([FromRoute] int id, [FromBody] AtualizarOcorrenciaDTO ocorrenciaAtualizada)
+        {   
+            var ocorrenciaAtualizadaEntity = ocorrenciaAtualizada.AtualizarOcorrenciaToOcorrenciaEntity();
+
+            var ocorrencia = await _ocorrenciaRepository.AtualizarOcorrencia(id, ocorrenciaAtualizadaEntity);
+            if(ocorrencia == null)
+            {
+                return NotFound("Ocorrencia não encontrada");
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletarOcorrencia([FromRoute] int id)
+        {
+            var ocorrenciaDeletada = await _ocorrenciaRepository.DeletarOcorrencia(id);
+            if(ocorrenciaDeletada == null)
+            {
+                return BadRequest("Ocorrencia não encontrada");
+            }
+
+            return Ok(ocorrenciaDeletada.ToOcorrenciaDTO());
         }
 
     }
