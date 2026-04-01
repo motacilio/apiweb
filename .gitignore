@@ -1,0 +1,52 @@
+# ASP.NET Core / .NET (Windows)
+
+# Build artifacts
+bin/
+obj/
+out/
+publish/
+
+# Test and coverage
+TestResults/
+coverage/
+*.trx
+*.coverage
+
+# IDE/editor
+.vs/
+.vscode/*
+!.vscode/extensions.json
+*.user
+*.userprefs
+*.suo
+*.sln.docstates
+.idea/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Local secrets and environment files
+secrets.json
+.env
+.env.*
+
+# App settings (keep shared defaults only)
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+
+# Certificates and private keys
+*.pfx
+*.snk
+*.key
+*.pem
+*.crt
+*.cer
+*.p12
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
