@@ -1,5 +1,6 @@
 using apiweb.Dto;
 using apiweb.Entity;
+using apiweb.Query;
 
 namespace apiweb.Interfaces
 {
@@ -7,7 +8,7 @@ namespace apiweb.Interfaces
     {
         Task AdicionarUsuarioAsync(UsuarioEntity usuario);
 
-        Task<List<UsuarioEntity>> ListarUsuariosAsync();
+        Task<List<UsuarioEntity>> ListarUsuariosAsync(ObjectQuery query);
 
         Task<UsuarioEntity?> AcharUsuarioPorIdAsync(int id);
 

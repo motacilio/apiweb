@@ -2,6 +2,7 @@ using apiweb.Data;
 using apiweb.Dto;
 using apiweb.Entity;
 using apiweb.Interfaces;
+using apiweb.Query;
 using Microsoft.EntityFrameworkCore;
 
 namespace apiweb.Repositories
@@ -20,10 +21,26 @@ namespace apiweb.Repositories
             await _context.Usuarios.AddAsync(usuario);
             await _context.SaveChangesAsync();
         }
-        public async Task<List<UsuarioEntity>> ListarUsuariosAsync()
+        public async Task<List<UsuarioEntity>> ListarUsuariosAsync(ObjectQuery query)
         {
-            var usuarios = await _context.Usuarios.Include(c => c.ocorrencias).ToListAsync();
-            return usuarios;
+            var usuarios = _context.Usuarios.Include(c => c.ocorrencias).AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(query.nome))
+            {
+                usuarios = usuarios.Where(u => u.nome.Contains(query.nome));
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.sortBy))
+            {
+                if(query.sortBy.Equals("nome", StringComparison.OrdinalIgnoreCase))
+                {
+                    usuarios = query.isDescending ? usuarios.OrderByDescending(u => u.nome) : usuarios.OrderBy(u => u.nome); 
+                }
+            }
+
+            var skipNumber = (query.pageNumber - 1) * query.pageSize;
+ 
+            return await usuarios.Skip(skipNumber).Take(query.pageSize).ToListAsync();
         }
         public async Task<UsuarioEntity?> AcharUsuarioPorIdAsync(int id)
         {

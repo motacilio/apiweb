@@ -1,6 +1,7 @@
 using apiweb.Dto;
 using apiweb.Interfaces;
 using apiweb.Mappers;
+using apiweb.Query;
 using Microsoft.AspNetCore.Mvc;
 
 namespace apiweb.Controller
@@ -24,9 +25,9 @@ namespace apiweb.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsuarios()
+        public async Task<IActionResult> GetUsuarios([FromQuery] ObjectQuery query)
         {
-            var usuarios = await _usuarioRepository.ListarUsuariosAsync();
+            var usuarios = await _usuarioRepository.ListarUsuariosAsync(query);
             var usuariosDTO = usuarios.Select(s => s.ToUsuarioDTO());
             return Ok(usuariosDTO);
         }
